@@ -10,6 +10,7 @@ import CrearTorneoScreen from './screens/CrearTorneoScreen';
 import CargarTorneoScreen from './screens/CargarTorneoScreen';
 import TorneoOpcionesScreen from './screens/TorneoOpcionesScreen';
 import VerTorneosScreen from './screens/VerTorneosScreen';
+import CrearEquipoScreen from './screens/CrearEquipoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +28,7 @@ export default function App() {
         <Stack.Screen name="CargarTorneo" component={CargarTorneoScreen} />
 
         <Stack.Screen name="VerTorneos" component={VerTorneosScreen} />
-
+        <Stack.Screen name="CrearEquipo" component={CrearEquipoScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
