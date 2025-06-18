@@ -17,6 +17,7 @@ export default function EquiposScreen() {
           {equipo.nombre} ({equipo.tipo})
         </Text>
       ))}
+      <Button title="Agregar equipo" onPress={() => navigation.navigate('CrearEquipo')} />
     </ScrollView>
   );
 }
