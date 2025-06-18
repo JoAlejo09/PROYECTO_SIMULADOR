@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, Picker
+  View, Text, TextInput, Button, StyleSheet, Alert, ScrollView
 } from 'react-native';
 import { db } from '../firebaseConfig';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { Picker } from '@react-native-picker/picker'; // asegúrate de tener esto instalado
 
-export default function CrearJugadorScreen({ navigation }) {
+export default function CrearJugadorScreen({ navigation, route }) {
+  const equipoIdFromRoute = route.params?.equipoId || '';
+  const nombreEquipo = route.params?.nombreEquipo || null;
+
   const [equipos, setEquipos] = useState([]);
-  const [equipoId, setEquipoId] = useState('');
+  const [equipoId, setEquipoId] = useState(equipoIdFromRoute);
   const [nombre, setNombre] = useState('');
   const [posicion, setPosicion] = useState('');
   const [edad, setEdad] = useState('');
@@ -15,20 +19,22 @@ export default function CrearJugadorScreen({ navigation }) {
   const [nacionalidad, setNacionalidad] = useState('');
 
   useEffect(() => {
-    const cargarEquipos = async () => {
-      try {
-        const snapshot = await getDocs(collection(db, 'equipos'));
-        const lista = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setEquipos(lista);
-        if (lista.length > 0) {
-          setEquipoId(lista[0].id);
+    if (!equipoIdFromRoute) {
+      const cargarEquipos = async () => {
+        try {
+          const snapshot = await getDocs(collection(db, 'equipos'));
+          const lista = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setEquipos(lista);
+          if (lista.length > 0) {
+            setEquipoId(lista[0].id);
+          }
+        } catch (error) {
+          console.error('Error al cargar equipos:', error);
+          Alert.alert('Error', 'No se pudieron cargar los equipos');
         }
-      } catch (error) {
-        console.error('Error al cargar equipos:', error);
-        Alert.alert('Error', 'No se pudieron cargar los equipos');
-      }
-    };
-    cargarEquipos();
+      };
+      cargarEquipos();
+    }
   }, []);
 
   const guardarJugador = async () => {
@@ -56,18 +62,24 @@ export default function CrearJugadorScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Registrar Jugador</Text>
+      <Text style={styles.title}>
+        Registrar jugador {nombreEquipo ? `para ${nombreEquipo}` : ''}
+      </Text>
 
-      <Text style={styles.label}>Equipo:</Text>
-      <Picker
-        selectedValue={equipoId}
-        onValueChange={(value) => setEquipoId(value)}
-        style={styles.picker}
-      >
-        {equipos.map((equipo) => (
-          <Picker.Item key={equipo.id} label={equipo.nombre} value={equipo.id} />
-        ))}
-      </Picker>
+      {!equipoIdFromRoute && (
+        <>
+          <Text style={styles.label}>Equipo:</Text>
+          <Picker
+            selectedValue={equipoId}
+            onValueChange={(value) => setEquipoId(value)}
+            style={styles.picker}
+          >
+            {equipos.map((equipo) => (
+              <Picker.Item key={equipo.id} label={equipo.nombre} value={equipo.id} />
+            ))}
+          </Picker>
+        </>
+      )}
 
       <TextInput
         placeholder="Nombre"

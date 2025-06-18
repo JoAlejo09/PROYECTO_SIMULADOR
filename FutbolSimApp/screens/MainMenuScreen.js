@@ -15,7 +15,7 @@ export default function MainMenuScreen({ navigation }) {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button title="Equipos" onPress={() => navigation.navigate('Equipos')} />
+        <Button title="Editor" onPress={() => navigation.navigate('EditorTipo')} />
       </View>
 
       <View style={styles.buttonContainer}>
