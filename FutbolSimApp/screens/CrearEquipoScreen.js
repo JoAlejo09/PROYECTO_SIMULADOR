@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
+import { ScrollView, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig'; // corregida esta línea
+import {CrearEquipoStyles}  from '../styles/WindowStyle';
+
 
 export default function CrearEquipoScreen({ navigation, route }) {
   const { tipo } = route.params; // recibe el tipo: "Club" o "Selección"
@@ -49,35 +51,35 @@ export default function CrearEquipoScreen({ navigation, route }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.titulo}>Registrar nuevo equipo - {tipo}</Text>
+    <ScrollView contentContainerStyle={CrearEquipoStyles.container}>
+      <Text style={CrearEquipoStyles.titulo}>Registrar nuevo equipo - {tipo}</Text>
 
       <TextInput
         placeholder="Nombre del equipo"
         value={nombre}
         onChangeText={setNombre}
-        style={styles.input}
+        style={CrearEquipoStyles.input}
       />
 
       <TextInput
         placeholder="País"
         value={pais}
         onChangeText={setPais}
-        style={styles.input}
+        style={CrearEquipoStyles.input}
       />
 
       <TextInput
         placeholder="Estadio"
         value={estadio}
         onChangeText={setEstadio}
-        style={styles.input}
+        style={CrearEquipoStyles.input}
       />
 
       <TextInput
         placeholder="URL del logo (opcional)"
         value={logo}
         onChangeText={setLogo}
-        style={styles.input}
+        style={CrearEquipoStyles.input}
       />
 
       <TextInput
@@ -85,7 +87,7 @@ export default function CrearEquipoScreen({ navigation, route }) {
         value={ranking}
         onChangeText={setRanking}
         keyboardType="numeric"
-        style={styles.input}
+        style={CrearEquipoStyles.input}
       />
 
       <Button title="Guardar Equipo" onPress={guardarEquipo} />
@@ -93,14 +95,4 @@ export default function CrearEquipoScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { padding: 20 },
-  titulo: { fontSize: 22, fontWeight: 'bold', marginBottom: 20 },
-  input: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 6
-  }
-});
+

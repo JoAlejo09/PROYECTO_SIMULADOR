@@ -115,6 +115,17 @@ export default function CrearJugadorScreen({ navigation, route }) {
       />
 
       <Button title="Guardar Jugador" onPress={guardarJugador} />
+      {
+        jugador && (
+            <View style={{ marginTop: 20 }}>
+            <Button
+              title="Eliminar jugador"
+              onPress={eliminarJugador}
+              color="red"
+            />
+          </View>
+        )
+      }
     </ScrollView>
   );
 }
